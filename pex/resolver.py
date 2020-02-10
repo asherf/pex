@@ -25,7 +25,7 @@ from pex.tracer import TRACER
 from pex.util import CacheHelper
 
 
-class Untranslateable(Exception):
+class Untranslatable(Exception):
   pass
 
 
@@ -518,7 +518,7 @@ class ResolveRequest(object):
 
         for build_result in self._run_parallel(inputs=build_requests,
                                                spawn_func=spawn_wheel_build,
-                                               raise_type=Untranslateable):
+                                               raise_type=Untranslatable):
           to_install.extend(build_result.finalize_build())
 
     # 3. Install wheels in individual chroots.
@@ -550,7 +550,7 @@ class ResolveRequest(object):
 
       for install_result in self._run_parallel(inputs=install_requests,
                                                spawn_func=spawn_install,
-                                               raise_type=Untranslateable):
+                                               raise_type=Untranslatable):
         add_requirements_requests(install_result)
 
     # 4. Calculate the final resolved requirements.
@@ -560,7 +560,7 @@ class ResolveRequest(object):
         self._run_parallel(
           inputs=to_calculate_requirements_for,
           spawn_func=DistributionRequirements.Request.spawn_calculation,
-          raise_type=Untranslateable
+          raise_type=Untranslatable
         )
       )
 
@@ -661,7 +661,7 @@ def resolve(requirements=None,
   :type indexes: list of str
   :keyword find_links: A list or URLs, paths to local html files or directory paths. If URLs or
     local html file paths, these are parsed for links to distributions. If a local directory path,
-    its listing is used to discover distributons.
+    its listing is used to discover distributors.
   :type find_links: list of str
   :keyword str cache: A directory path to use to cache distributions locally.
   :keyword bool build: Whether to allow building source distributions when no wheel is found.
@@ -677,7 +677,7 @@ def resolve(requirements=None,
   :keyword bool ignore_errors: Whether to ignore resolution solver errors. Defaults to ``False``.
   :returns: List of :class:`ResolvedDistribution` instances meeting ``requirements``.
   :raises Unsatisfiable: If ``requirements`` is not transitively satisfiable.
-  :raises Untranslateable: If no compatible distributions could be acquired for
+  :raises Untranslatable: If no compatible distributions could be acquired for
     a particular requirement.
   """
 
@@ -744,7 +744,7 @@ def resolve_multi(requirements=None,
   :type indexes: list of str
   :keyword find_links: A list or URLs, paths to local html files or directory paths. If URLs or
     local html file paths, these are parsed for links to distributions. If a local directory path,
-    its listing is used to discover distributons.
+    its listing is used to discover distributors.
   :type find_links: list of str
   :keyword str cache: A directory path to use to cache distributions locally.
   :keyword bool build: Whether to allow building source distributions when no wheel is found.
@@ -760,7 +760,7 @@ def resolve_multi(requirements=None,
   :keyword bool ignore_errors: Whether to ignore resolution solver errors. Defaults to ``False``.
   :returns: List of :class:`ResolvedDistribution` instances meeting ``requirements``.
   :raises Unsatisfiable: If ``requirements`` is not transitively satisfiable.
-  :raises Untranslateable: If no compatible distributions could be acquired for
+  :raises Untranslatable: If no compatible distributions could be acquired for
     a particular requirement.
   """
 
